@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="*" Name="GunpointLevels.Setup" Language="1033" Version="1.0.0.0" Manufacturer="Laedit" UpgradeCode="be200df3-12ee-43b9-846b-c6e766027a52">
+        <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Manufacturer="Laedit" />
+        <MajorUpgrade DowngradeErrorMessage="A newer version of Gunpoint Levels is already installed." />
+        <MediaTemplate />
+        <Feature Id="ProductFeature" Title="GunpointLevels.Setup" Level="1">
+            <ComponentGroupRef Id="ProductComponents" />
+        </Feature>
+        <UI />
+    </Product>
+    <Fragment>
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder">
+                <Directory Id="INSTALLFOLDER" Name="GunpointLevels" />
+            </Directory>
+        </Directory>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+             <Component Id="ProductComponent" Guid="{206C911C-56EF-44B8-9257-5FD214427965}"> 
+               <File Source="$(var.Gunpoint.Common.TargetPath)" />
+               <File Source="$(var.GunpointLevels.Common.TargetPath)" />
+               <File Source="$(var.GunpointLevels.ConsoleInstaller.TargetPath)" />
+               <RegistryKey Root="HKCR"
+                     Key="gnplvl"
+                     Action="createAndRemoveOnUninstall">
+                 <RegistryValue Type="string" Name="URL Protocol" Value=""/>
+                 <RegistryValue Type="string" Value="URL:Gunpoint Levels protocol"/>
+                 <RegistryKey Key="DefaultIcon">
+                   <RegistryValue Type="string" Value="GunpointLevels.ConsoleInstaller.exe" />
+                 </RegistryKey>
+                 <RegistryKey Key="shell\open\command">
+                   <RegistryValue Type="string" Value="&quot;[INSTALLFOLDER]GunpointLevels.ConsoleInstaller.exe&quot; &quot;%1&quot;" />
+                 </RegistryKey>
+               </RegistryKey>
+             </Component> 
+        </ComponentGroup>
+    </Fragment>
+</Wix>
